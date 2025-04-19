@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Http\Requests\Auth\AdminLoginRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\SignupRequest;
-use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -20,9 +19,9 @@ class AuthService
      * @param  AdminService  $adminService
      * @return void
      */
-    public function __construct(private UserService $userService, private AdminService $adminService)
+    public function __construct(private UserService $userService)
     {
-        //
+        $this->userService = $userService;
     }
 
     /**
@@ -34,7 +33,7 @@ class AuthService
     public function signupUser(SignupRequest $request): User
     {
         $user = $this->userService->storeUser([
-            'name' => $request->name,
+            'userName' => $request->userName,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
@@ -82,25 +81,25 @@ class AuthService
      * @throws HttpException
      * @throws NotFoundHttpException
      */
-    public function loginAdmin(AdminLoginRequest $request): Admin
-    {
-        $admin = $this->adminService->getByEmail($request->email);
+    // public function loginAdmin(AdminLoginRequest $request): Admin
+    // {
+    //     $admin = $this->adminService->getByEmail($request->email);
 
-        if (!$admin || !Hash::check($request->password, $admin->password)) {
-            return abort(401, 'Invalid credentials.');
-        }
+    //     if (!$admin || !Hash::check($request->password, $admin->password)) {
+    //         return abort(401, 'Invalid credentials.');
+    //     }
 
-        return $admin;
-    }
+    //     return $admin;
+    // }
 
-    /**
-     * Logout an admin.
-     *
-     * @param  Admin  $admin
-     * @return bool
-     */
-    public function logoutAdmin(Admin $admin): bool
-    {
-        return $admin->currentAccessToken()->delete();
-    }
+    // /**
+    //  * Logout an admin.
+    //  *
+    //  * @param  Admin  $admin
+    //  * @return bool
+    //  */
+    // public function logoutAdmin(Admin $admin): bool
+    // {
+    //     return $admin->currentAccessToken()->delete();
+    // }
 }

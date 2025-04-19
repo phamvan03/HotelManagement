@@ -11,10 +11,10 @@ use OpenApi\Attributes as OAT;
 #[
     OAT\Info(
         version: '1.0.0',
-        title: 'Pandora',
-        description: "## Introduction\n\n API documentation for Pandora - REST API starter kit powered by Laravel, OpenAPI, Sanctum.\n\n- [GitHub](https://github.com/arifszn/pandora)\n- [MIT License](https://github.com/arifszn/pandora/blob/main/LICENSE)",
+        title: 'VanBoDoi',
+        description: "Anh yeu co ay nhieu lam <3",
     ),
-    OAT\Server(url: 'http://localhost', description: 'Local API server'),
+    OAT\Server(url: 'http://127.0.0.1:8000', description: 'Local API server'),
     OAT\SecurityScheme(
         securityScheme: 'BearerToken',
         scheme: 'bearer',

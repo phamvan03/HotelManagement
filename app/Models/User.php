@@ -11,35 +11,39 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    protected $primaryKey = 'userId';
+
+    public $incrementing = true;
+    protected $keyType = 'int';
+    protected $table = 'users';
+
     protected $fillable = [
-        'name',
+        'userName',
+        'address',
+        'phone',
         'email',
         'password',
-        'email_verified',
-        'firebase_uid',
-        'avatar_url',
+        'isActive',
+        'createTime',
+        'createdBy',
+        'lastUpdateTime',
+        'lastUpdatedBy',
+        'isSuperAdmin',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
-        'email_verified' => 'boolean',
+        'createTime' => 'datetime',
+        'lastUpdateTime' => 'datetime',
+        'isActive' => 'boolean',
+        'isSuperAdmin' => 'boolean',
     ];
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'User_Role', 'userId', 'roleId');
+    }
+
 }

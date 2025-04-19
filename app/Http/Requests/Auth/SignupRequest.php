@@ -7,10 +7,10 @@ use OpenApi\Attributes as OAT;
 
 #[OAT\Schema(
     schema: 'SignupRequest',
-    required: ['name', 'email', 'password', 'password_confirmation'],
+    required: ['userName', 'email', 'password'],
     properties: [
         new OAT\Property(
-            property: 'name',
+            property: 'userName',
             type: 'string',
             example: 'John Doe'
         ),
@@ -22,11 +22,6 @@ use OpenApi\Attributes as OAT;
         ),
         new OAT\Property(
             property: 'password',
-            type: 'string',
-            example: '123456'
-        ),
-        new OAT\Property(
-            property: 'password_confirmation',
             type: 'string',
             example: '123456'
         ),
@@ -52,7 +47,7 @@ class SignupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => [
+            'userName' => [
                 'required',
                 'string',
             ],
@@ -65,7 +60,6 @@ class SignupRequest extends FormRequest
                 'required',
                 'min:6',
                 'string',
-                'confirmed',
             ],
         ];
     }

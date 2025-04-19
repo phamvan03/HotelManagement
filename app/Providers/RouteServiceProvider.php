@@ -6,6 +6,7 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
@@ -34,7 +35,6 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('api')
                 ->group(function () {
                     $this->getUserRoutes();
-                    $this->getAdminRoutes();
                 });
 
             Route::middleware('web')
@@ -52,31 +52,16 @@ class RouteServiceProvider extends ServiceProvider
     private function getUserRoutes()
     {
         require base_path('routes/api/auth.php');
+        $routeFiles = File::allFiles(base_path('routes/api'));
 
+        // Nạp từng file route
+        foreach ($routeFiles as $file) {
+            require $file->getPathname();
+        }
         Route::group([
             'middleware' => ['auth:user'],
         ], function () {
             require base_path('routes/api/profile.php');
-        });
-    }
-
-    /**
-     * Get the admin routes.
-     *
-     * @return void
-     */
-    private function getAdminRoutes()
-    {
-        Route::group([
-            'prefix' => 'admin',
-        ], function () {
-            require base_path('routes/api/admin/auth.php');
-
-            Route::group([
-                'middleware' => ['auth:admin'],
-            ], function () {
-                require base_path('routes/api/admin/profile.php');
-            });
         });
     }
 

@@ -59,7 +59,7 @@ info:
   description: "API documentation for Pandora - REST API starter kit powered by Laravel, OpenAPI, Sanctum.\n\n- [GitHub](https://github.com/arifszn/pandora)\n- [MIT License](https://github.com/arifszn/pandora/blob/main/LICENSE)"
   version: 1.0.0
 servers:
-  - url: 'http://localhost/api'
+  - url: 'http://127.0.0.1:8000/api'
     description: 'Local API server'
 paths:
   /signup:
